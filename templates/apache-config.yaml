@@ -7,5 +7,4 @@ requests:
     paths:
       - HOSTNAME/apache.conf
     patterns:
-      - "contains(body, '<Directory') && contains(body, '</Directory>') && status_code == 200"
-      - "contains(body, '<VirtualHost') && contains(body, '</VirtualHost>') && status_code == 200"
+      - '<Directory|<VirtualHost'

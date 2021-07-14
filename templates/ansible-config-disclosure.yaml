@@ -7,5 +7,5 @@ requests:
     paths:
       - "HOSTNAME/ansible.cfg"
     patterns:
-      - '[defaults]'
-      - '[inventory]'
+      - '\[defaults\]'
+      - '\[inventory\]'
