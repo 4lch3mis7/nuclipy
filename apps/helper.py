@@ -72,3 +72,11 @@ class Helper:
         Clear the current line but do not move cursor to the nex line
         '''
         print(f"{get_terminal_size()[0] * ' '}\r", end="", flush=True)
+
+
+    @staticmethod
+    def chunkify(iterable, thread_count):
+        chunksize = int(len(iterable) / thread_count)
+        if chunksize <= 1:
+            return [[_] for _ in iterable]
+        return [iterable[_:_+chunksize] for _ in range(0, len(iterable), chunksize)]
