@@ -35,7 +35,6 @@ You can find some templates in `templates/` directory.
     ```
     python nuclei.py -u example.com -t git-config.yaml
     ```
-    ```
 * Use all templates
     ```
     python nuclei.py -u example.com -t all
