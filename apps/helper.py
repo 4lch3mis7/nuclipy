@@ -1,6 +1,7 @@
 from .colors import Colors
 from functools import lru_cache
 from os import get_terminal_size
+from re import compile
 from requests import get as _get
 from typing import Pattern
 from yaml import load
