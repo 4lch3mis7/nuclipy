@@ -6,20 +6,20 @@ from os import listdir
 from sys import argv
 from threading import Thread
 
-class Expose:
+class Scanner:
 
     def __init__(self) -> None:
         self.all_templates = listdir("templates/")
 
 
-    def check_all(self, hostname:str, num_of_threads:int=10) -> None:
+    def check_all_templates(self, hostname:str, num_of_threads:int=10) -> None:
         for i in range(num_of_threads):
             t = Thread(target=self.__check, args=("templates"))
         for _ in listdir('templates/'):
             self.__check("templates/"+_, hostname)
 
 
-    def check_one(self, template:str, hostname:str) -> None:
+    def check_template(self, template:str, hostname:str) -> None:
         if not exists(template):
             template = f"templates/{template.strip('templates/').strip('.yaml')}.yaml"
             if not exists(template):
@@ -46,7 +46,7 @@ class Expose:
 
 
 if __name__ == '__main__':
-    x =  Expose()
+    x =  Scanner()
     x.check_all(argv[1])
     # x.check_one("templates/syfmony-profiler.yaml", argv[1])
     
