@@ -27,12 +27,14 @@ Short from | Long form | Description
 -u  | --hostname    | Hostname to scan for vulnerabilities
 -t  | --template    | Template id or path of template
 -T  | --threads     | Number of threads (default=10)
+-o  | --output      | Output file
 
 ## How to use templates?
 You can find some templates in `templates/` directory.
 *  Use one template
     ```
-    python nuclei.py -u example.com -t git-config
+    python nuclei.py -u example.com -t git-config.yaml
+    ```
     ```
 * Use all templates
     ```
