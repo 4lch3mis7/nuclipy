@@ -3,13 +3,13 @@ from os import listdir, get_terminal_size
 from os.path import exists
 from sys import argv
 from requests import get as _get
-from re import compile, template
+from re import compile
 from typing import Pattern
 from yaml import load
 try:
-    from yaml import CLoader as Loader, CDumper as Dumper
+    from yaml import CLoader as Loader
 except ImportError:
-    from yaml import Loader, Dumper
+    from yaml import Loader
 
 class Colors:
     BLACK =  "\u001b[30m"
@@ -23,7 +23,6 @@ class Colors:
     CYAN =  "\u001b[36m"
     WHITE =  "\u001b[37m"
     RESET =  "\u001b[0m"
-
 
 
 class Expose:
@@ -41,29 +40,26 @@ class Expose:
         if not exists(template):
             template = f"templates/{template.strip('templates/').strip('.yaml')}.yaml"
             if not exists(template):
+                print("Template does not exist:", template)
                 return
-        print(template)
         self.__check(template, hostname)
 
 
-    def __check(self, template_path:str, hostname:str):
+    def __check(self, template_path:str, hostname:str) -> None:
         template = Template(template_path)
 
         Helper.clear_line()
-        # print(Colors.GREEN + "[+] Checking: " + template.name + Colors.RESET, end='\r')
-        print(Colors.GREEN + "[+] Checking: " + template.name + Colors.RESET)
+        print(f"{Colors.GREEN}[+] Checking: {template.name} {Colors.RESET}", end='\r')
 
         for req in template.requests:
-            for path in req.paths:
-                path = 'http://'+path.strip().replace('HOSTNAME', hostname)
-                __condition = False
-                for pattern in req.patterns:
-                    __condition = Helper.checkPattern(Helper.get(path, req.redirects), pattern)
+            req.paths = ['http://'+_.strip().replace('HOSTNAME', hostname) for _ in req.paths]
+            req.paths.extend([_.replace('http', 'https') for _ in req.paths])
 
-                    if pattern.findall(Helper.get(path, req.redirects)).__len__() > 0:
-                        Helper.clear_line()
-                        Helper.color_display(f"[+][{template.severity.upper()}] {template.name}: {path}")
-                        break
+            for path in req.paths:
+                if Helper.check_and_patterns(Helper.get(path, req.redirects), req.patterns):
+                    Helper.clear_line()
+                    Helper.color_display(f"[+][{template.severity.upper()}] {template.name}: {path}")
+                    return
 
 
 class Template:
@@ -110,9 +106,6 @@ class Helper:
         __results:list[bool] = [Helper.checkPattern(string, _) for _ in patterns]
         return not (False in __results)
 
-
-
-
     @staticmethod
     @cache
     def re_compile(pattern:str) -> Pattern:
@@ -147,11 +140,8 @@ class Helper:
         print(f"{get_terminal_size()[0] * ' '}\r", end="", flush=True)
 
 
-
-
-
 if __name__ == '__main__':
     x =  Expose()
     x.check_all(argv[1])
-
+    # x.check_one("templates/syfmony-profiler.yaml", argv[1])
     
