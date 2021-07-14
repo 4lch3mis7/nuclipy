@@ -10,3 +10,4 @@ class Colors:
     CYAN =  "\u001b[36m"
     WHITE =  "\u001b[37m"
     RESET =  "\u001b[0m"
+
