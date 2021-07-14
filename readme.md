@@ -63,6 +63,6 @@ requests:
     - `method`: HTTP request method (`GET` or `POST`)
     - `redirects`: Allow redirection or not (`ture` or `false`)
     - `paths`: List of paths to send requests
-    - `patterns`: List of Regular Expressioins to match in the responses
+    - `patterns`: List of Regular Expressioins to match in the responses (with `AND` condition)
 ---
 
