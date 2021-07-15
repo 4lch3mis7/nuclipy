@@ -1,10 +1,12 @@
 from .colors import Colors
 from .helper import Helper
 from .template import Template
-from os.path import exists
+from os.path import exists, join
 from os import listdir
 from threading import Thread
 from time import sleep
+
+PKG_ROOT = __file__.strip(__name__ + '.py')
 
 class Scanner:
 
@@ -21,12 +23,12 @@ class Scanner:
                 self.hostsnames = [_.rstrip('\n').strip() for _ in names if _.strip()]
 
         if args.template == 'all':
-            self.templates = [f"templates/{_}" for _ in listdir("templates/")]
+            self.templates = [join(PKG_ROOT, "templates/", _) for _ in listdir("templates/")]
         else:
             if exists(args.template):
                 self.templates = [args.template]
             else:
-                self.templates = [f"templates/{args.template.lstrip('templates/').rstrip('.yaml')}.yaml"]        
+                self.templates = [join(PKG_ROOT, "templates/", args.template.lstrip('templates/').rstrip('.yaml') + ".yaml")]
 
         for host in self.hostsnames:
             self.thread_and_run(self.templates, host)        

@@ -2,7 +2,6 @@ from .banners import BANNERS
 from .colors import Colors
 from random import choice
 
-
 ABOUT = """nuclipy - Template Based Vulnerability Scanner inspired by Nuclei
 https://github.com/prasant-paudel/nuclipy
 """
@@ -13,3 +12,4 @@ print(
     + choice(BANNERS.split('---split---'))
     + '\n' + ABOUT
     + Colors.RESET)
+

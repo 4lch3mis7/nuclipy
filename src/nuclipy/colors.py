@@ -1,3 +1,5 @@
+from os import name
+
 class Colors:
     BLACK =  "\u001b[30m"
     RED =  "\u001b[31m"
@@ -11,3 +13,6 @@ class Colors:
     WHITE =  "\u001b[37m"
     RESET =  "\u001b[0m"
 
+    if name == 'nt':
+        BLACK=RED=GREEN=YELLOW=ORANGE=ORNAGE_YELLOW\
+            =BLUE=MAGENTA=CYAN=WHITE=RESET=''

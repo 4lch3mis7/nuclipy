@@ -1,9 +1,10 @@
-from apps.colors import Colors
-from apps.scanner import Scanner
+from .colors import Colors
+from .scanner import Scanner
 from argparse import ArgumentParser, FileType
 
 def parse_args():
     parser = ArgumentParser()
+    parser.prog = __package__
     parser.add_argument('-u', "--hostname", help="Hostname to scan for vulnerabilities")
     parser.add_argument('-U', "--hostnames", help="File containing target hostnames", type=FileType('r'))
     parser.add_argument('-t', "--template", help="Path or id of the template", required=True)
