@@ -1,13 +1,13 @@
-# Nuclei-Python
+# nuclipy
 A simple template based vulnerability scanner (Inspired by ProjectDiscovery's [Nuclei](https://github.com/projectdiscovery/nuclei))
 
 ## Installation
 ```
-git clone https://github.com/prasant-paudel/XGiF/tree/python
+git clone https://github.com/prasant-paudel/nuclipy
 ```
 
 ## Dependencies
-This project depends upon the python modules `requests`, `argparse` and `PyYaml`.
+nuclipy depends upon the python modules `requests`, `argparse` and `PyYaml`.
 These dependencies can be installed using the requirements file:
 
 * Installation on Windows:
@@ -33,12 +33,11 @@ Short from | Long form | Description
 You can find some templates in `templates/` directory.
 *  Use one template
     ```
-    python nuclei.py -u example.com -t git-config.yaml
-    ```
+    python nuclipy.py -u example.com -t git-config.yaml
     ```
 * Use all templates
     ```
-    python nuclei.py -u example.com -t all
+    python nuclipy.py -u example.com -t all
     ```
 ---
 ## How to write your own templates?
