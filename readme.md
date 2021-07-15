@@ -25,6 +25,7 @@ Short from | Long form | Description
 -----------|-----------|-------------
 -h  | --help        | Show the help menu 
 -u  | --hostname    | Hostname to scan for vulnerabilities
+-U  | --hostnames   | File containing target hostnames
 -t  | --template    | Template id or path of template
 -T  | --threads     | Number of threads (default=10)
 -o  | --output      | Output file

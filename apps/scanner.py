@@ -10,25 +10,33 @@ class Scanner:
 
     def __init__(self, args) -> None:
         self.args = args
-        self.all_templates = [f"templates/{_}" for _ in listdir("templates/")]
+        self.templates:list[str] = []
         self.threads:list[Thread] = []
+        self.hostsnames:list[str] = []
+
+        if args.hostname:
+            self.hostsnames = [args.hostname]
+        elif args.hostnames:
+            with args.hostnames as names:
+                self.hostsnames = [_.rstrip('\n').strip() for _ in names if _.strip()]
 
         if args.template == 'all':
-            self.check_all_templates(args.hostname)
+            self.templates = [f"templates/{_}" for _ in listdir("templates/")]
         else:
-            self.check_template_if_exists(args.template, args.hostname)
+            if exists(args.template):
+                self.templates = [args.template]
+            else:
+                self.templates = [f"templates/{args.template.lstrip('templates/').rstrip('.yaml')}.yaml"]        
 
+        for host in self.hostsnames:
+            self.thread_and_run(self.templates, host)        
 
-    def check_all_templates(self, hostname:str) -> None:
-        self.check_multiple_threaded(self.all_templates, hostname)
-
-
-    def check_multiple_threaded(self, templates:list[str], hostname:str) -> None:
+    def thread_and_run(self, templates:list[str], hostname:str) -> None:
         '''Makes chunks of templates and passes it to __check_multiple'''
         chunks = tuple(Helper.chunkify(templates, self.args.threads))
         
         for chunk in chunks:
-            thread = Thread(target=self.__check_multiple, args=(chunk, hostname))
+            thread = Thread(target=self.__check_multiple_templates, args=(chunk, hostname))
             thread.setDaemon(True)
             thread.start()
             self.threads.append(thread)
@@ -46,7 +54,7 @@ class Scanner:
         self.__check_template(template, hostname)
 
 
-    def __check_multiple(self, templates:list[str], hostname:str) -> None:
+    def __check_multiple_templates(self, templates:list[str], hostname:str) -> None:
         for _ in templates:
             self.__check_template(_, hostname)
 
@@ -55,7 +63,7 @@ class Scanner:
         template = Template(template_path)
 
         Helper.clear_line()
-        print(f"{Colors.GREEN}[+] Checking: {template.name} {Colors.RESET}", end='\r')
+        print(f"{Colors.GREEN}[+] Checking: {template.name} {Colors.RESET} [{hostname}]", end='\r')
 
         for req in template.requests:
             req.paths = ['http://'+_.strip().replace('HOSTNAME', hostname) for _ in req.paths]
@@ -69,5 +77,5 @@ class Scanner:
                     sleep(0.1)
 
                     if self.args.output is not None:
-                        self.args.output.write(_ + '\n')    
+                        self.args.output.write(_ + '\n')
                     return

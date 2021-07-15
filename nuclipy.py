@@ -5,7 +5,7 @@ from argparse import ArgumentParser, FileType
 def parse_args():
     parser = ArgumentParser()
     parser.add_argument('-u', "--hostname", help="Hostname to scan for vulnerabilities")
-    parser.add_argument('-U', "--hostnames", help="File containing multiple hostnames")
+    parser.add_argument('-U', "--hostnames", help="File containing target hostnames", type=FileType('r'))
     parser.add_argument('-t', "--template", help="Path or id of the template", required=True)
     parser.add_argument('-T', "--threads", help="Number of threads (default=10)", default=10)
     parser.add_argument('-o', "--output", help="Output file", type=FileType('w'))
