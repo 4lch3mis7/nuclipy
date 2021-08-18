@@ -23,7 +23,7 @@ class Scanner:
                 self.hostsnames = [_.rstrip('\n').strip() for _ in names if _.strip()]
 
         if args.template == 'all':
-            self.templates = [join(PKG_ROOT, "templates/", _) for _ in listdir("templates/")]
+            self.templates = [join(PKG_ROOT, "templates/", _) for _ in listdir(join(PKG_ROOT, "templates/"))]
         else:
             if exists(args.template):
                 self.templates = [args.template]
@@ -65,7 +65,7 @@ class Scanner:
         template = Template(template_path)
 
         Helper.clear_line()
-        print(f"{Colors.GREEN}[+] Checking: {template.name} {Colors.RESET} [{hostname}]", end='\r')
+        print(f"{Colors.GREEN}[+] Checking: {template.name} {Colors.RESET} [{hostname}]\r", end='\r')
 
         for req in template.requests:
             req.paths = ['http://'+_.strip().replace('HOSTNAME', hostname) for _ in req.paths]
