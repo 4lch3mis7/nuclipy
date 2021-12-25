@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: nuclipy
-Version: 1.0.2
+Version: 1.0.3
 Summary: A template based vulnerability scanner (Inspired by Nuclei Scanner)
 Home-page: https://github.com/prasant-paudel/nuclipy
 Author: Prasant Paudel

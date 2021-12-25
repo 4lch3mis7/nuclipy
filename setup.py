@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="nuclipy",
-    version="1.0.2",
+    version="1.0.3",
     author="Prasant Paudel",
     author_email="prashant.paudel.555@gmail.com",
     description="A template based vulnerability scanner (Inspired by Nuclei Scanner)",
